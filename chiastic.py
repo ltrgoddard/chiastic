@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 # Chiastic
-# by Louis Goddard <l.goddard@sussex.ac.uk>
+# by Louis Goddard <louisgoddard@gmail.com>
 
 # This short script is designed to detect basic chiastic sentence structures (A, B, B, A) in
 # plain text files. Usage: "python chiastic.py ['-s' for single mode, '-b' for bulk mode]
