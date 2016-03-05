@@ -23,20 +23,20 @@ mode = str(sys.argv[1])
 
 if mode == "-s" and sys.argv[3]:
 
-	# If single mode, get target file, strip punctuation and convert to list
+    # If single mode, get target file, strip punctuation and convert to list
 
-	file = open(str(sys.argv[3])).read().lower()
-	words = re.sub("[^\w]", " ", file).split()
+    file = open(str(sys.argv[3])).read().lower()
+    words = re.sub("[^\w]", " ", file).split()
 
 elif mode == "-b":
 
-	# If bulk mode, get targets list
+    # If bulk mode, get targets list
 
-	targets = open("targets.txt").read().split()
+    targets = open("targets.txt").read().split()
 
 else:
 
-	sys.exit("Error! Invalid argument.")
+    sys.exit("Error! Invalid argument.")
 
 # Get word limit from command line argument
 
@@ -48,8 +48,8 @@ ignoreExists = os.path.isfile("ignore.txt")
 
 if ignoreExists:
 
-	list = open("ignore.txt").read().lower()
-	ignore = re.sub("[^\w]", " ", list).split()
+    list = open("ignore.txt").read().lower()
+    ignore = re.sub("[^\w]", " ", list).split()
 
 # Initialize main variables
 
@@ -61,102 +61,102 @@ files = 1
 
 if mode == "-b":
 
-	files = len(targets)
+    files = len(targets)
 
 
 # Start scanning target file
 
 while counter < files:
 
-	# If in bulk mode, get the next file in the list and strip and convert it
-	
-	if mode == "-b":
+    # If in bulk mode, get the next file in the list and strip and convert it
+    
+    if mode == "-b":
 
-		file = open(str(targets[counter])).read().lower()
-        	words = re.sub("[^\w]", " ", file).split()
+        file = open(str(targets[counter])).read().lower()
+            words = re.sub("[^\w]", " ", file).split()
 
-	while start < len(words):
+    while start < len(words):
 
-		# Skip words in ignore list
+        # Skip words in ignore list
 
-		if ignoreExists and words[start] in ignore:
+        if ignoreExists and words[start] in ignore:
 
-			start += 1
-			end = start + 1
+            start += 1
+            end = start + 1
 
-		else:
+        else:
 
-			while end < len(words) and end < start + limit:
+            while end < len(words) and end < start + limit:
 
-				# Catch matches where the words is longer than two characters
+                # Catch matches where the words is longer than two characters
 
-				if words[start] == words[end] and len(words[start]) > 2:
+                if words[start] == words[end] and len(words[start]) > 2:
 
-					# If the ignore list exists, check for sub-matches excluding ignore words
+                    # If the ignore list exists, check for sub-matches excluding ignore words
 
-					if ignoreExists:
+                    if ignoreExists:
 
-						stripped = [word for word in words[start+1:end] if word not in ignore]
-				
-						if len(stripped) > len(set(stripped)):		
-			
-							# If in single mode, output the results
+                        stripped = [word for word in words[start+1:end] if word not in ignore]
+                
+                        if len(stripped) > len(set(stripped)):        
+            
+                            # If in single mode, output the results
 
-							if mode == "-s":
-								
-								print start,
-								print end,
-								print ":",
-								print words[start:end+1]
+                            if mode == "-s":
+                                
+                                print start,
+                                print end,
+                                print ":",
+                                print words[start:end+1]
 
-							check += 1
-				
-						else:
+                            check += 1
+                
+                        else:
 
-							break
-				
-					# If the ignore list doesn't exist, check for sub-matches anyway
+                            break
+                
+                    # If the ignore list doesn't exist, check for sub-matches anyway
 
-					else:
+                    else:
 
-						if len(words[start+1:end]) > len(set(words[start+1:end])):
+                        if len(words[start+1:end]) > len(set(words[start+1:end])):
 
-							# If in single mode, output the results
+                            # If in single mode, output the results
 
-							if mode == "-s":
+                            if mode == "-s":
 
-								print start,
-								print end,
-								print ":",
-								print words[start:end+1]
+                                print start,
+                                print end,
+                                print ":",
+                                print words[start:end+1]
 
-							check += 1
+                            check += 1
 
-						else:
+                        else:
 
-							break
+                            break
 
-					start += 1
-					break
+                    start += 1
+                    break
 
-				end += 1
+                end += 1
 
-		start += 1
-		end = start + 1
+        start += 1
+        end = start + 1
 
-	# Output the overall score(s), as long as neither 'length' nor 'check' is zero
+    # Output the overall score(s), as long as neither 'length' nor 'check' is zero
 
-	if mode == "-b":
+    if mode == "-b":
 
-		print targets[counter],
-	
-	if len(words) > 0 and check > 0:
+        print targets[counter],
+    
+    if len(words) > 0 and check > 0:
 
-		print len(words) / check
+        print len(words) / check
 
-	else:
+    else:
 
-		print "No matches!"
+        print "No matches!"
 
-	
-	counter += 1
+    
+    counter += 1
